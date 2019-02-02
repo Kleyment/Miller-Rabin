@@ -1,0 +1,10 @@
+# Compiled class file
+*.class
+
+# IntelliJ
+out/
+bin/
+.idea/
+
+# Ant
+jar/
