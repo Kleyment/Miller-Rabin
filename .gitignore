@@ -1,9 +1,14 @@
 # Compiled class file
 *.class
 
+# Eclipse
+.settings/
+bin/
+.classpath
+.project
+
 # IntelliJ
 out/
-bin/
 .idea/
 *.iml
 
