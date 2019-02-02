@@ -5,6 +5,8 @@
 out/
 bin/
 .idea/
+*.iml
 
 # Ant
-jar/
+jar-ant/
+out-ant/
