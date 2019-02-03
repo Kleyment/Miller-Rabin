@@ -5,14 +5,16 @@ public class Main {
 
     public static void main(String args[]) {
         int nbValeur=1000;
-        /*for (int i=0;i<nbValeur;i++) {
+        for (int i=0;i<nbValeur;i++) {
             BigInteger big = new BigInteger(1024, new Random());
+            System.out.println("i="+(i+1));
             System.out.println("nb=" + big);
             BigInteger[] resultat = decomp(big);
             afficheDecomp(resultat);
-        }*/
+            System.out.println("");
+        }
 
-        for (int i=0;i<nbValeur;i++) {
+        /*for (int i=0;i<nbValeur;i++) {
             BigInteger n=new BigInteger(6, new Random());
             while (n.equals(BigInteger.ZERO)) {
             	n=new BigInteger(6, new Random());
@@ -25,7 +27,7 @@ public class Main {
             System.out.println("n="+n + " t="+t + " a="+a);
             BigInteger res = expMod(n, a, t);
             System.out.println("res="+res);
-        }
+        }*/
     }
 
     public static void afficheDecomp(BigInteger[] resultat) {
