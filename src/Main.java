@@ -14,7 +14,13 @@ public class Main {
 
         for (int i=0;i<nbValeur;i++) {
             BigInteger n=new BigInteger(6, new Random());
+            while (n.equals(BigInteger.ZERO)) {
+            	n=new BigInteger(6, new Random());
+            }
             BigInteger t=new BigInteger(6, new Random());
+            while (t.equals(BigInteger.ZERO)) {
+            	t=new BigInteger(6, new Random());
+            }
             BigInteger a=new BigInteger(6, new Random());
             System.out.println("n="+n + " t="+t + " a="+a);
             BigInteger res = expMod(n, a, t);
@@ -67,10 +73,10 @@ public class Main {
     		// retourne a si t = 1
     		p = a;
     	} else if (t.mod(two).equals(BigInteger.ZERO)) {
-    		// retourne puissance(a�, t/2) si t est pair
+    		// retourne puissance(a², t/2) si t est pair
     		p = puissance(a.multiply(a), t.divide(two));
     	} else {
-    		// retourne a x puissance(a�, (t-1)/2) si t est impair
+    		// retourne a x puissance(a², (t-1)/2) si t est impair
     		p = a.multiply(puissance(a.multiply(a), (t.subtract(BigInteger.ONE).divide(two))));
     	}
     	return p;
