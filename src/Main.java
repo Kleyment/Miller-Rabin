@@ -5,29 +5,33 @@ public class Main {
 
     public static void main(String args[]) {
         int nbValeur=1000;
-        for (int i=0;i<nbValeur;i++) {
+        /*for (int i=0;i<nbValeur;i++) {
             BigInteger big = new BigInteger(1024, new Random());
             System.out.println("i="+(i+1));
             System.out.println("nb=" + big);
             BigInteger[] resultat = decomp(big);
             afficheDecomp(resultat);
             System.out.println("");
-        }
+        }*/
 
-        /*for (int i=0;i<nbValeur;i++) {
-            BigInteger n=new BigInteger(6, new Random());
+        for (int i=0;i<nbValeur;i++) {
+            BigInteger n=new BigInteger(15, new Random());
             while (n.equals(BigInteger.ZERO)) {
-            	n=new BigInteger(6, new Random());
+            	n=new BigInteger(15, new Random());
             }
-            BigInteger t=new BigInteger(6, new Random());
+            BigInteger t=new BigInteger(15, new Random());
             while (t.equals(BigInteger.ZERO)) {
-            	t=new BigInteger(6, new Random());
+            	t=new BigInteger(15, new Random());
             }
-            BigInteger a=new BigInteger(6, new Random());
-            System.out.println("n="+n + " t="+t + " a="+a);
+            BigInteger a=new BigInteger(15, new Random());
+            System.out.println("i="+(i+1));
+            System.out.println("n="+n);
+            System.out.println("t="+t);
+            System.out.println("a="+a);
             BigInteger res = expMod(n, a, t);
             System.out.println("res="+res);
-        }*/
+            System.out.println("");
+        }
     }
 
     public static void afficheDecomp(BigInteger[] resultat) {
