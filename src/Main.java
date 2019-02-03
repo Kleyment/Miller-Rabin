@@ -6,20 +6,38 @@ public class Main {
     public static void main(String args[]) {
         int nbValeur=1000;
         for (int i=0;i<nbValeur;i++) {
-            BigInteger big=new BigInteger(6, new Random());
+            BigInteger big=new BigInteger(1024, new Random());
             System.out.println("nb="+big);
-            decomp(big);
-            System.out.println("");
+            BigInteger[] resultat=decomp(big);
+            afficheDecomp(resultat);
         }
     }
 
-    public static void decomp(BigInteger n) {
+    public static void afficheDecomp(BigInteger[] resultat) {
+        if (resultat != null) {
+            BigInteger s=resultat[0];
+            BigInteger d=resultat[1];
+            System.out.println("s="+s);
+            System.out.println("d="+d);
+        } else {
+            System.out.println("Impossible");
+        }
+    }
+
+    public static BigInteger[] decomp(BigInteger n) {
+        BigInteger[] resultat=new BigInteger[2];
         BigInteger two=new BigInteger("2");
 
         BigInteger s=new BigInteger("0");
         BigInteger d=new BigInteger(n.toString());
         d=d.subtract(BigInteger.ONE);
 
+        //Si d est égal à 0, on retourne un tableau vide car c'est impossible
+        if (d.equals(BigInteger.ZERO)) {
+            return null;
+        }
+
+        //divisiblepar2=d mod 2 (0 true, 1 false)
         boolean divisiblepar2=d.mod(two).equals(BigInteger.ZERO);
         while (divisiblepar2) {
             s=s.add(BigInteger.ONE);
@@ -27,7 +45,11 @@ public class Main {
             divisiblepar2=d.mod(two).equals(BigInteger.ZERO);
         }
 
-        System.out.println("s="+s);
-        System.out.println("d="+d);
+        resultat[0]=s;
+        resultat[1]=d;
+        return resultat;
+
     }
+
+
 }
