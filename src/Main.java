@@ -5,11 +5,20 @@ public class Main {
 
     public static void main(String args[]) {
         int nbValeur=1000;
-        for (int i=0;i<nbValeur;i++) {
-            BigInteger big=new BigInteger(1024, new Random());
-            System.out.println("nb="+big);
-            BigInteger[] resultat=decomp(big);
+        /*for (int i=0;i<nbValeur;i++) {
+            BigInteger big = new BigInteger(1024, new Random());
+            System.out.println("nb=" + big);
+            BigInteger[] resultat = decomp(big);
             afficheDecomp(resultat);
+        }*/
+
+        for (int i=0;i<nbValeur;i++) {
+            BigInteger n=new BigInteger(6, new Random());
+            BigInteger t=new BigInteger(6, new Random());
+            BigInteger a=new BigInteger(6, new Random());
+            System.out.println("n="+n + " t="+t + " a="+a);
+            BigInteger res = expMod(n, a, t);
+            System.out.println("res="+res);
         }
     }
 
@@ -51,5 +60,23 @@ public class Main {
 
     }
 
-
+    public static BigInteger puissance(BigInteger a, BigInteger t) {
+    	BigInteger p = null;
+    	BigInteger two = new BigInteger("2");
+    	if (t.equals(BigInteger.ONE)) {
+    		// retourne a si t = 1
+    		p = a;
+    	} else if (t.mod(two).equals(BigInteger.ZERO)) {
+    		// retourne puissance(a�, t/2) si t est pair
+    		p = puissance(a.multiply(a), t.divide(two));
+    	} else {
+    		// retourne a x puissance(a�, (t-1)/2) si t est impair
+    		p = a.multiply(puissance(a.multiply(a), (t.subtract(BigInteger.ONE).divide(two))));
+    	}
+    	return p;
+    }
+    
+    public static BigInteger expMod(BigInteger n, BigInteger a, BigInteger t) {
+    	return puissance(a, t).mod(n);
+    }
 }
