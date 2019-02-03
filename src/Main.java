@@ -91,4 +91,43 @@ public class Main {
     public static BigInteger expMod(BigInteger n, BigInteger a, BigInteger t) {
     	return puissance(a, t).mod(n);
     }
+    
+    public static int millerRabin(BigInteger n, int cpt) {
+    	BigInteger moinsUn = n.subtract(BigInteger.ONE);
+    	BigInteger two = new BigInteger("2");
+    	BigInteger minus = new BigInteger("-1");
+    	BigInteger [] dcp;
+    	BigInteger s,d,a,j,res;
+    	for (int i= 0; i < cpt; i++) {
+	    	dcp = decomp(n);
+	    	s = dcp[0];
+	    	d = dcp[1];
+	    	Random rand = new Random();	    	
+	        a = new BigInteger(moinsUn.bitLength(), rand);
+	        while( a.compareTo(moinsUn) >= 0 || a.compareTo(BigInteger.ONE) <= 0 ) {
+	            a = new BigInteger(n.bitLength(), rand);
+	        }
+	        BigInteger eMod = expMod(n, a, d);
+	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(minus) == 0) {
+	        	return 0;
+	        } else {
+	        	j = BigInteger.ONE;
+	        	while (j.compareTo(s) != 0) {
+	        		// a^d(2^i) mod n
+	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+i))));
+	        		if (res.compareTo(minus) == 0) {
+	        			return 0;
+	        		} else if (res.compareTo(minus) == 0) {
+	        			return 0;
+	        		}
+	        	}
+	        	res = expMod(n, a, d.multiply(puissance(two, s)));
+	        	if (res.compareTo(BigInteger.ONE) != 0) {
+	        		return 0;
+	        	}
+	        }
+    	}
+		return 1;    	
+    }
+    
 }
