@@ -5,25 +5,33 @@ public class Main {
 
     public static void main(String args[]) {
         int nbValeur=1000;
-        /*for (int i=0;i<nbValeur;i++) {
+        //testDecomp(nbValeur);
+        //testExpMod(nbValeur);
+        System.out.println(millerRabin(new BigInteger("3"),4));
+    }
+
+    public static void testDecomp (int nbValeur) {
+        for (int i=0;i<nbValeur;i++) {
             BigInteger big = new BigInteger(1024, new Random());
             System.out.println("i="+(i+1));
             System.out.println("nb=" + big);
             BigInteger[] resultat = decomp(big);
             afficheDecomp(resultat);
             System.out.println("");
-        }*/
+        }
+    }
 
+    public static void testExpMod(int nbValeur) {
         for (int i=0;i<nbValeur;i++) {
-            BigInteger n=new BigInteger(15, new Random());
+            BigInteger n=new BigInteger(256, new Random());
             while (n.equals(BigInteger.ZERO)) {
-            	n=new BigInteger(15, new Random());
+                n=new BigInteger(256, new Random());
             }
             BigInteger t=new BigInteger(15, new Random());
             while (t.equals(BigInteger.ZERO)) {
-            	t=new BigInteger(15, new Random());
+                t=new BigInteger(15, new Random());
             }
-            BigInteger a=new BigInteger(15, new Random());
+            BigInteger a=new BigInteger(256, new Random());
             System.out.println("i="+(i+1));
             System.out.println("n="+n);
             System.out.println("t="+t);
@@ -91,22 +99,42 @@ public class Main {
     public static BigInteger expMod(BigInteger n, BigInteger a, BigInteger t) {
     	return puissance(a, t).mod(n);
     }
-    
+
+    /**
+     *
+     * @param n Un BigInteger > 3
+     * @param cpt Un entier positif
+     * @return 0 le BigInteger est composé / 1 le BigInteger est probablement premier / -1 entrée invalide
+     */
     public static int millerRabin(BigInteger n, int cpt) {
+        BigInteger trois=new BigInteger("3");
+        if (n.compareTo(trois) <= 0) {
+            return -1;
+        }
     	BigInteger moinsUn = n.subtract(BigInteger.ONE);
     	BigInteger two = new BigInteger("2");
     	BigInteger minus = new BigInteger("-1");
     	BigInteger [] dcp;
     	BigInteger s,d,a,j,res;
+
+
+
     	for (int i= 0; i < cpt; i++) {
 	    	dcp = decomp(n);
 	    	s = dcp[0];
 	    	d = dcp[1];
 	    	Random rand = new Random();	    	
 	        a = new BigInteger(moinsUn.bitLength(), rand);
-	        while( a.compareTo(moinsUn) >= 0 || a.compareTo(BigInteger.ONE) <= 0 ) {
+	        // 5.compareTo(3) = 1
+            // 5.compareTo(3) = 1
+            System.out.println("aO="+a);
+            System.out.println(a.compareTo(moinsUn));
+	        while( !(a.compareTo(moinsUn) < 0 && a.compareTo(BigInteger.ONE) > 0) ) {
 	            a = new BigInteger(n.bitLength(), rand);
+                System.out.println("a="+a);
 	        }
+	        System.out.println("OK");
+
 	        BigInteger eMod = expMod(n, a, d);
 	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(minus) == 0) {
 	        	return 0;
