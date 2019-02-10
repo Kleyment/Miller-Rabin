@@ -7,7 +7,7 @@ public class Main {
         int nbValeur=1000;
         //testDecomp(nbValeur);
         //testExpMod(nbValeur);
-        System.out.println(millerRabin(new BigInteger("10"),4));
+        System.out.println(millerRabin(new BigInteger("100"),4));
     }
 
     public static void testDecomp (int nbValeur) {
@@ -132,6 +132,9 @@ public class Main {
             // 5.compareTo(3) = 1
             System.out.println("aO="+a);
             System.out.println(a.compareTo(moinsUn));
+            if (s.compareTo(BigInteger.ZERO) == 0) {
+            	return 0;
+            }
 	        while( !(a.compareTo(moinsUn) < 0 && a.compareTo(BigInteger.ONE) > 0) ) {
 	            a = new BigInteger(n.bitLength(), rand);
                 System.out.println("a="+a);
@@ -146,6 +149,7 @@ public class Main {
 	        	while (j.compareTo(s) != 0) {
 	        		// a^d(2^i) mod n
 	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+i))));
+	        		System.out.println("s = "+s);
 	        		if (res.compareTo(minus) == 0) {
 	        			break;
 	        		} else if (res.compareTo(BigInteger.ONE) == 0) {
