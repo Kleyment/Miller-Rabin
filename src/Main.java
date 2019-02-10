@@ -7,7 +7,7 @@ public class Main {
         int nbValeur=1000;
         //testDecomp(nbValeur);
         //testExpMod(nbValeur);
-        System.out.println(millerRabin(new BigInteger("100"),4));
+        System.out.println(millerRabin(new BigInteger("9"),4));
     }
 
     public static void testDecomp (int nbValeur) {
@@ -130,16 +130,12 @@ public class Main {
 	        a = new BigInteger(moinsUn.bitLength(), rand);
 	        // 5.compareTo(3) = 1
             // 5.compareTo(3) = 1
-            System.out.println("aO="+a);
-            System.out.println(a.compareTo(moinsUn));
             if (s.compareTo(BigInteger.ZERO) == 0) {
             	return 0;
             }
 	        while( !(a.compareTo(moinsUn) < 0 && a.compareTo(BigInteger.ONE) > 0) ) {
 	            a = new BigInteger(n.bitLength(), rand);
-                System.out.println("a="+a);
 	        }
-	        System.out.println("OK");
 
 	        BigInteger eMod = expMod(n, a, d);
 	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(minus) == 0) {
@@ -147,16 +143,14 @@ public class Main {
 	        } else {
 	        	j = BigInteger.ONE;
 	        	while (j.compareTo(s) != 0) {
-	        		// a^d(2^i) mod n
-	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+i))));
-	        		System.out.println("s = "+s);
+	        		// a^d(2^i) mod n	        		
+	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+i))));	
+	        		j = j.add(BigInteger.ONE);
 	        		if (res.compareTo(minus) == 0) {
 	        			break;
 	        		} else if (res.compareTo(BigInteger.ONE) == 0) {
 	        			return 0;
 	        		}
-	        		System.out.println("OK3");
-	        		j.add(BigInteger.ONE);
 	        	}
 	        	res = expMod(n, a, d.multiply(puissance(two, s)));
 	        	if (res.compareTo(BigInteger.ONE) != 0) {
