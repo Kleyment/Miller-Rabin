@@ -7,10 +7,11 @@ public class Main {
         int nbValeur=1000;
         //testDecomp(nbValeur);
         //testExpMod(nbValeur);
-        for (int i=1;i<=1000;i++) {
+        /*for (int i=1;i<=1000;i++) {
             System.out.println("i="+i);
             System.out.println(millerRabin(new BigInteger(""+i),20));
-        }
+        }*/
+        System.out.println(eval(128,20));
 
     }
 
@@ -134,35 +135,62 @@ public class Main {
 	        a = new BigInteger(moinsUn.bitLength(), rand);
 	        // 5.compareTo(3) = 1
             // 5.compareTo(3) = 1
+	        System.out.println("Dans millerRabin");
             if (s.compareTo(BigInteger.ZERO) == 0) {
+            	System.out.println("Pb if 1");
             	return 0;
             }
+            System.out.println("Dans millerRabin 2");
 	        while( !(a.compareTo(moinsUn) < 0 && a.compareTo(BigInteger.ONE) > 0) ) {
 	            a = new BigInteger(n.bitLength(), rand);
+	            System.out.println("Pb while 1");
 	        }
-
+	        System.out.println("Dans millerRabin 3");
+	        System.out.println("a = " +a);
+	        System.out.println("d = " +d);
 	        BigInteger eMod = expMod(n, a, d);
 	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(minus) == 0) {
+	        	System.out.println("Pb if 2");
 	        	break;
 	        } else {
+	        	System.out.println("Dans millerRabin 4");
 	        	j = BigInteger.ONE;
 	        	while (j.compareTo(s) != 0) {
-	        		// a^d(2^i) mod n	        		
+	        		// a^d(2^i) mod n	   
+	        		System.out.println("Pb while 2");
 	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+j))));
 	        		j = j.add(BigInteger.ONE);
 	        		if (res.compareTo(minus) == 0) {
+	        			System.out.println("Pb if 3");
 	        			break;
 	        		} else if (res.compareTo(BigInteger.ONE) == 0) {
+	        			System.out.println("Pb if 4");
 	        			return 0;
 	        		}
 	        	}
 	        	res = expMod(n, a, d.multiply(puissance(two, s)));
 	        	if (res.compareTo(BigInteger.ONE) != 0) {
+	        		System.out.println("Pb if 5");
 	        		return 0;
 	        	}
 	        }
     	}
 		return 1;    	
+    }
+    
+    public static int eval(int b, int cpt) {
+    	int compteur = 0;
+    	BigInteger n = new BigInteger(b, new Random());
+    	System.out.println("n = "+n);
+    	System.out.println(n.isProbablePrime(1));
+    	while (millerRabin(n, 20) == 0) {
+    		System.out.println("n = "+n);
+    		System.out.println("dans eval");
+    		compteur++;
+    		n = new BigInteger(b, new Random());
+    		System.out.println(n.isProbablePrime(1));
+    	}
+    	return compteur;
     }
     
 }
