@@ -24,15 +24,26 @@ public class Main {
                         System.out.println("-testExpMod <valeur>");
                     }
                     break;
+                case "-testEval":
+                    if (args.length == 4) {
+                        int nbValeurs=Integer.parseInt(args[1]);
+                        int nbBits=Integer.parseInt(args[2]);
+                        int nbIterations=Integer.parseInt(args[3]);
+                        System.out.println("On obtient en moyenne "+testEval(nbValeurs,nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.");
+                    } else {
+                        System.out.println("Utilisation : ");
+                        System.out.println("-testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>");
+                    }
+                    break;
                 case "-mr":
                     if (args.length == 3) {
                         BigInteger nbHexa=new BigInteger(args[1],16);
                         int nbIterations=Integer.parseInt(args[2]);
                         int ml=millerRabin(nbHexa,nbIterations);
                         if (ml == 0) {
-                            System.out.println("Le nombre "+nbHexa+" est composé");
+                            System.out.println("Le nombre "+nbHexa+" est composé.");
                         } else if (ml == 1) {
-                            System.out.println("Le nombre "+nbHexa+" est probablement premier");
+                            System.out.println("Le nombre "+nbHexa+" est probablement premier.");
                         }
                     } else {
                         System.out.println("Utilisation : ");
@@ -43,20 +54,10 @@ public class Main {
                     if (args.length == 3) {
                         int nbBits=Integer.parseInt(args[1]);
                         int nbIterations=Integer.parseInt(args[2]);
-                        System.out.println("Il a fallu "+eval(nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier");
+                        System.out.println("Il a fallu "+eval(nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.");
                     } else {
                         System.out.println("Utilisation : ");
                         System.out.println("-eval <nombre de bits> <nombre d'itérations de miller-rabin>");
-                    }
-                    break;
-                case "-testEval":
-                    if (args.length == 3) {
-                        int nbBits=Integer.parseInt(args[1]);
-                        int nbIterations=Integer.parseInt(args[2]);
-                        //System.out.println(testEval(nbBits,nbIterations));
-                    } else {
-                        System.out.println("Utilisation : ");
-                        System.out.println("-testEval <nombre de bits> <nombre d'itérations de miller-rabin>");
                     }
                     break;
             }
@@ -64,21 +65,10 @@ public class Main {
             System.out.println("Utilisation : ");
             System.out.println("-testDecomp <valeur>");
             System.out.println("-testExpMod <valeur>");
+            System.out.println("-testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>");
             System.out.println("-mr <nombre en hexa> <nombre d'itérations>");
             System.out.println("-eval <nombre de bits> <nombre d'itérations de miller-rabin>");
-            System.out.println("-testEval <nombre de bits> <nombre d'itérations de miller-rabin>");
         }
-
-        /*int nbValeur=10000;
-        //testDecomp(nbValeur);
-        testExpMod(nbValeur);
-        for (int i=1;i<=1000;i++) {
-            System.out.println("i="+i);
-            System.out.println(millerRabin(new BigInteger(""+i),20));
-        }
-        //System.out.println(millerRabin(new BigInteger("FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE65381FFFFFFFFFFFFFFFF",16),20));
-        System.out.println(eval(128,20));*/
-        //System.out.println(millerRabin(new BigInteger("7919"),20));;
     }
 
     public static void testDecomp (int nbValeur) {
@@ -110,6 +100,14 @@ public class Main {
             System.out.println("res="+res);
             System.out.println("");
         }
+    }
+    
+    public static int testEval (int nbValeur, int b, int cpt) {
+    	int somme = 0;
+        for (int i=0;i<nbValeur;i++) {
+            somme += eval(b, cpt);
+        }
+        return somme/nbValeur;
     }
 
     public static void afficheDecomp(BigInteger[] resultat) {
@@ -194,44 +192,29 @@ public class Main {
 	    	d = dcp[1];
 	    	Random rand = new Random();	    	
 	        a = new BigInteger(moinsUn.bitLength(), rand);
-	        // 5.compareTo(3) = 1
-            // 5.compareTo(3) = 1
-	        System.out.println("Dans millerRabin");
             if (s.compareTo(BigInteger.ZERO) == 0) {
-            	System.out.println("Pb if 1");
             	return 0;
             }
-            System.out.println("Dans millerRabin 2");
 	        while( !(a.compareTo(moinsUn) < 0 && a.compareTo(BigInteger.ONE) > 0) ) {
 	            a = new BigInteger(n.bitLength(), rand);
-	            System.out.println("Pb while 1");
 	        }
-	        System.out.println("Dans millerRabin 3");
-	        System.out.println("a = " +a);
-	        System.out.println("d = " +d);
 	        BigInteger eMod = expMod(n, a, d);
 	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(n.subtract(BigInteger.ONE)) == 0) {
-	        	System.out.println("Pb if 2");
 	        	break;
 	        } else {
-	        	System.out.println("Dans millerRabin 4");
 	        	j = BigInteger.ONE;
 	        	while (j.compareTo(s) != 0) {
 	        		// a^d(2^i) mod n	   
-	        		System.out.println("Pb while 2");
 	        		res = expMod(n, a, d.multiply(new BigInteger(""+j).pow(2)));
 	        		j = j.add(BigInteger.ONE);
 	        		if (res.compareTo(n.subtract(BigInteger.ONE)) == 0) {
-	        			System.out.println("Pb if 3");
 	        			break;
 	        		} else if (res.compareTo(BigInteger.ONE) == 0) {
-	        			System.out.println("Pb if 4");
 	        			return 0;
 	        		}
 	        	}
 	        	res = expMod(n, a, d.multiply(s.pow(2)));
 	        	if (res.compareTo(BigInteger.ONE) != 0) {
-	        		System.out.println("Pb if 5");
 	        		return 0;
 	        	}
 	        }
@@ -242,14 +225,9 @@ public class Main {
     public static int eval(int b, int cpt) {
     	int compteur = 0;
     	BigInteger n = new BigInteger(b, new Random());
-    	System.out.println("n = "+n);
-    	System.out.println(n.isProbablePrime(1));
     	while (millerRabin(n, 20) == 0) {
-    		System.out.println("n = "+n);
-    		System.out.println("dans eval");
     		compteur++;
     		n = new BigInteger(b, new Random());
-    		System.out.println(n.isProbablePrime(1));
     	}
     	return compteur;
     }
