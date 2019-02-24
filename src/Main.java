@@ -4,15 +4,16 @@ import java.util.Random;
 public class Main {
 
     public static void main(String args[]) {
-        int nbValeur=1000;
+        int nbValeur=10000;
         //testDecomp(nbValeur);
-        //testExpMod(nbValeur);
+        /*testExpMod(nbValeur);
         /*for (int i=1;i<=1000;i++) {
             System.out.println("i="+i);
             System.out.println(millerRabin(new BigInteger(""+i),20));
         }*/
+        //System.out.println(millerRabin(new BigInteger("FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE65381FFFFFFFFFFFFFFFF",16),20));
         System.out.println(eval(128,20));
-
+        //System.out.println(millerRabin(new BigInteger("7919"),20));
     }
 
     public static void testDecomp (int nbValeur) {
@@ -28,15 +29,15 @@ public class Main {
 
     public static void testExpMod(int nbValeur) {
         for (int i=0;i<nbValeur;i++) {
-            BigInteger n=new BigInteger(256, new Random());
+            BigInteger n=new BigInteger(1024, new Random());
             while (n.equals(BigInteger.ZERO)) {
-                n=new BigInteger(256, new Random());
+                n=new BigInteger(1024, new Random());
             }
-            BigInteger t=new BigInteger(15, new Random());
+            BigInteger t=new BigInteger(1024, new Random());
             while (t.equals(BigInteger.ZERO)) {
-                t=new BigInteger(15, new Random());
+                t=new BigInteger(1024, new Random());
             }
-            BigInteger a=new BigInteger(256, new Random());
+            BigInteger a=new BigInteger(1024, new Random());
             System.out.println("i="+(i+1));
             System.out.println("n="+n);
             System.out.println("t="+t);
@@ -84,28 +85,24 @@ public class Main {
         return resultat;
 
     }
-
-    public static BigInteger puissance(BigInteger a, BigInteger t) {
-    	BigInteger p = null;
-    	BigInteger two = new BigInteger("2");
-    	if  (t.equals(BigInteger.ZERO)) {
-    		return BigInteger.ONE;
-    	}
-    	if (t.equals(BigInteger.ONE)) {
-    		// retourne a si t = 1
-    		p = a;
-    	} else if (t.mod(two).equals(BigInteger.ZERO)) {
-    		// retourne puissance(a², t/2) si t est pair
-    		p = puissance(a.multiply(a), t.divide(two));
-    	} else {
-    		// retourne a x puissance(a², (t-1)/2) si t est impair
-    		p = a.multiply(puissance(a.multiply(a), (t.subtract(BigInteger.ONE).divide(two))));
-    	}
-    	return p;
-    }
     
     public static BigInteger expMod(BigInteger n, BigInteger a, BigInteger t) {
-    	return puissance(a, t).mod(n);
+        BigInteger p = null;
+        BigInteger two = new BigInteger("2");
+        if  (t.equals(BigInteger.ZERO)) {
+            return BigInteger.ONE;
+        }
+        if (t.equals(BigInteger.ONE)) {
+            // retourne a si t = 1
+            p = a.mod(n);
+        } else if (t.mod(two).equals(BigInteger.ZERO)) {
+            // retourne puissance(a², t/2) si t est pair
+            p = expMod(n,a.multiply(a).mod(n), t.divide(two)).mod(n);
+        } else {
+            // retourne a x puissance(a², (t-1)/2) si t est impair
+            p = a.multiply(expMod(n,a.multiply(a).mod(n), (t.subtract(BigInteger.ONE).divide(two)))).mod(n);
+        }
+        return p;
     }
 
     /**
@@ -149,7 +146,7 @@ public class Main {
 	        System.out.println("a = " +a);
 	        System.out.println("d = " +d);
 	        BigInteger eMod = expMod(n, a, d);
-	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(minus) == 0) {
+	        if (eMod.compareTo(BigInteger.ONE) == 0 || eMod.compareTo(n.subtract(BigInteger.ONE)) == 0) {
 	        	System.out.println("Pb if 2");
 	        	break;
 	        } else {
@@ -158,9 +155,9 @@ public class Main {
 	        	while (j.compareTo(s) != 0) {
 	        		// a^d(2^i) mod n	   
 	        		System.out.println("Pb while 2");
-	        		res = expMod(n, a, d.multiply(puissance(two, new BigInteger(""+j))));
+	        		res = expMod(n, a, d.multiply(new BigInteger(""+j).pow(2)));
 	        		j = j.add(BigInteger.ONE);
-	        		if (res.compareTo(minus) == 0) {
+	        		if (res.compareTo(n.subtract(BigInteger.ONE)) == 0) {
 	        			System.out.println("Pb if 3");
 	        			break;
 	        		} else if (res.compareTo(BigInteger.ONE) == 0) {
@@ -168,7 +165,7 @@ public class Main {
 	        			return 0;
 	        		}
 	        	}
-	        	res = expMod(n, a, d.multiply(puissance(two, s)));
+	        	res = expMod(n, a, d.multiply(s.pow(2)));
 	        	if (res.compareTo(BigInteger.ONE) != 0) {
 	        		System.out.println("Pb if 5");
 	        		return 0;
