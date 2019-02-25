@@ -18,6 +18,14 @@ Développeurs
 
 ```cd jar-ant```
 
+### Options possibles
+
+* -testDecomp <valeur>
+* -testExpMod <valeur>
+* -testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>
+* -mr <nombre en hexa> <nombre d'itérations>
+* -eval <nombre de bits> <nombre d'itérations de miller-rabin>
+
 ### Exemple - Miller-Rabin
 
 Pour lancer le test de Miller-Rabin 20 fois sur le nombre 13 (donc 0x0D en hexadécimal).
@@ -33,7 +41,7 @@ Nombre de génération aléatoire de nombre de 1024 bits qu'il a fallu pour obte
 
 ### Exemple - Test d'exponentiation modulaire
 
-Lancement de 10 000 tests d'exponentiations modulaires avec des valuers de n, t et a sur 1024 bits avec redirection dans un fichier.
+Lancement de 10 000 tests d'exponentiations modulaires avec des valeurs de n, t et a sur 1024 bits avec redirection dans un fichier.
 
 ```java -jar Miller-Rabin.jar -testExpMod 10000 > testExpMod.txt```
 
