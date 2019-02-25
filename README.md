@@ -20,11 +20,11 @@ Développeurs
 
 ### Options possibles
 
-* -testDecomp <valeur>
-* -testExpMod <valeur>
-* -testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>
-* -mr <nombre en hexa> <nombre d'itérations>
-* -eval <nombre de bits> <nombre d'itérations de miller-rabin>
+* ```-testDecomp <valeur>```
+* ```-testExpMod <valeur>```
+* ```-testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>```
+* ```-mr <nombre en hexa> <nombre d'itérations>```
+* ```-eval <nombre de bits> <nombre d'itérations de miller-rabin>```
 
 ### Exemple - Miller-Rabin
 
