@@ -1,4 +1,4 @@
-# Miller-Rabbin
+# Miller-Rabin
 
 Développeurs
 
