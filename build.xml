@@ -1,4 +1,4 @@
-<project name="Miller-Rabin" basedir="." default="run">
+<project name="Miller-Rabin" basedir="." default="jar">
   <target name="clean">
     <delete dir="out-ant"/>
     <delete dir="jar-ant"/>
@@ -16,10 +16,6 @@
         <attribute name="main-Class" value="Main"/>
       </manifest>
     </jar>
-  </target>
-  
-  <target name="run" depends="jar">
-    <java jar="jar-ant/Miller-Rabin.jar" fork="true"/>
   </target>
   
 </project>
