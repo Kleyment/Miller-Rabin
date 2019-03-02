@@ -43,13 +43,13 @@ Nombre de génération aléatoire de nombre de 1024 bits qu'il a fallu pour obte
 
 Lancement de 10 000 tests d'exponentiations modulaires avec des valeurs de n, t et a sur 1024 bits avec redirection dans un fichier.
 
-```java -jar Miller-Rabin.jar -testExpMod 10000
+```java -jar Miller-Rabin.jar -testExpMod 10000```
 
 ### Exemple - Test de décomposition de nombres sous la forme n-1=2^s*d
 
 Lancement de 10 000 tests de décomposition sur des entiers de 1024 bits avec redirection dans un fichier.
 
-```java -jar Miller-Rabin.jar -testDecomp 10000`
+```java -jar Miller-Rabin.jar -testDecomp 10000```
 
 ### Exemple - Test d'évalutation
 
