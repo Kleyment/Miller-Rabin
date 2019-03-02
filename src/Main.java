@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -26,10 +27,12 @@ public class Main {
                     break;
                 case "-testEval":
                     if (args.length == 4) {
+                        String sortie="";
                         int nbValeurs=Integer.parseInt(args[1]);
                         int nbBits=Integer.parseInt(args[2]);
                         int nbIterations=Integer.parseInt(args[3]);
-                        System.out.println("On obtient en moyenne "+testEval(nbValeurs,nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.");
+                        sortie+="On obtient en moyenne "+testEval(nbValeurs,nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.";
+                        writeTestTxt(sortie);
                     } else {
                         System.out.println("Utilisation : ");
                         System.out.println("-testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>");
@@ -37,14 +40,16 @@ public class Main {
                     break;
                 case "-mr":
                     if (args.length == 3) {
+                        String sortie="";
                         BigInteger nbHexa=new BigInteger(args[1],16);
                         int nbIterations=Integer.parseInt(args[2]);
                         int ml=millerRabin(nbHexa,nbIterations);
                         if (ml == 0) {
-                            System.out.println("Le nombre "+nbHexa+" est composé.");
+                            sortie+="Le nombre "+nbHexa+" est composé.";
                         } else if (ml == 1) {
-                            System.out.println("Le nombre "+nbHexa+" est probablement premier.");
+                            sortie+="Le nombre "+nbHexa+" est probablement premier.";
                         }
+                        writeTestTxt(sortie);
                     } else {
                         System.out.println("Utilisation : ");
                         System.out.println("-mr <nombre en hexa> <nombre d'itérations>");
@@ -52,14 +57,23 @@ public class Main {
                     break;
                 case "-eval":
                     if (args.length == 3) {
+                        String sortie="";
                         int nbBits=Integer.parseInt(args[1]);
                         int nbIterations=Integer.parseInt(args[2]);
-                        System.out.println("Il a fallu "+eval(nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.");
+                        sortie+="Il a fallu "+eval(nbBits,nbIterations)+" itérations pour obtenir un nombre probablement premier.";
+                        writeTestTxt(sortie);
                     } else {
                         System.out.println("Utilisation : ");
                         System.out.println("-eval <nombre de bits> <nombre d'itérations de miller-rabin>");
                     }
                     break;
+                default:
+                    System.out.println("Utilisation : ");
+                    System.out.println("-testDecomp <valeur>");
+                    System.out.println("-testExpMod <valeur>");
+                    System.out.println("-testEval <nombre de valeurs> <nombre de bits> <nombre d'itérations de miller-rabin>");
+                    System.out.println("-mr <nombre en hexa> <nombre d'itérations>");
+                    System.out.println("-eval <nombre de bits> <nombre d'itérations de miller-rabin>");
             }
         } else {
             System.out.println("Utilisation : ");
@@ -72,16 +86,19 @@ public class Main {
     }
 
     public static void testDecomp (int nbValeur) {
+        String sortie="";
         for (int i=0;i<nbValeur;i++) {
             BigInteger big = new BigInteger(1024, new Random());
-            System.out.println("i="+(i+1));
-            System.out.println("nb=" + big);
+            sortie+="i="+(i+1)+"\n";
+            sortie+="nb=" + big+"\n";
             BigInteger[] resultat = decomp(big);
-            afficheDecomp(resultat);
+            sortie+=afficheDecomp(resultat)+"\n";
         }
+        writeTestTxt(sortie);
     }
 
     public static void testExpMod(int nbValeur) {
+        String sortie="";
         for (int i=0;i<nbValeur;i++) {
             BigInteger n=new BigInteger(1024, new Random());
             while (n.equals(BigInteger.ZERO)) {
@@ -92,14 +109,15 @@ public class Main {
                 t=new BigInteger(1024, new Random());
             }
             BigInteger a=new BigInteger(1024, new Random());
-            System.out.println("i="+(i+1));
-            System.out.println("n="+n);
-            System.out.println("t="+t);
-            System.out.println("a="+a);
+            sortie+="i="+(i+1)+"\n";
+            sortie+="n="+n+"\n";
+            sortie+="t="+t+"\n";
+            sortie+="a="+a+"\n";
             BigInteger res = expMod(n, a, t);
-            System.out.println("res="+res);
-            System.out.println("");
+            sortie+="res="+res+"\n";
+            sortie+="\n";
         }
+        writeTestTxt(sortie);
     }
     
     public static int testEval (int nbValeur, int b, int cpt) {
@@ -110,15 +128,17 @@ public class Main {
         return somme/nbValeur;
     }
 
-    public static void afficheDecomp(BigInteger[] resultat) {
+    public static String afficheDecomp(BigInteger[] resultat) {
+        String sortie="";
         if (resultat != null) {
             BigInteger s=resultat[0];
             BigInteger d=resultat[1];
-            System.out.println("s="+s);
-            System.out.println("d="+d);
+            sortie+="s="+s+"\n";
+            sortie+="d="+d+"\n";
         } else {
-            System.out.println("Impossible");
+            sortie+="Impossible\n";
         }
+        return sortie;
     }
 
     public static BigInteger[] decomp(BigInteger n) {
@@ -231,5 +251,16 @@ public class Main {
     	}
     	return compteur;
     }
-    
+
+    public static void writeTestTxt(String text) {
+        try {
+            PrintWriter pw=new PrintWriter("test.txt","UTF-8");
+            pw.println(text);
+            pw.close();
+        } catch (Throwable t){
+            t.printStackTrace(System.err) ;
+            return;
+        }
+    }
+
 }
